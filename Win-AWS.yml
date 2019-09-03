@@ -1,0 +1,19 @@
+- name: infrastructure setup
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+  - name: find current Windows AMI in this region
+    ec2_ami_find:
+      region: us-east-2c
+      platform: windows
+      virtualization_type: hvm
+      owner: amazon
+      name: Windows_Server-2016-English-Full-Base-*
+      no_result_action: fail
+      sort: name
+      sort_order: descending
+    register: found_amis
+    
+  - debug:
+      var: found_amis
